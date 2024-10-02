@@ -9,11 +9,11 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 
-#define BLYNK_TEMPLATE_ID "TMPL3mEQLkfgy"
+#define BLYNK_TEMPLATE_ID ""
 #define BLYNK_TEMPLATE_NAME "Smart Agriculture Protection System"
 
 BlynkTimer timer;
-char auth[] = "COuS8uEJkD5sNKJNecZAs7C_LgF2usCN";
+char auth[] = "";
 char ssid[] = "POCO M3";
 char pass[] = "1883311M3";
 
