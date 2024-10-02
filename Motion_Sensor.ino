@@ -1,38 +1,38 @@
-int led = 13;                // the pin that the LED is atteched to
-int sensor = 2;              // the pin that the sensor is atteched to
-int state = LOW;             // by default, no motion detected
-int val = 0;                 // variable to store the sensor status (value)
+int led = 13;                
+int sensor = 2;             
+int state = LOW;            
+int val = 0;                 
 
 void setup() 
 {
-  pinMode(led, OUTPUT);      // initalize LED as an output
-  pinMode(sensor, INPUT);    // initialize sensor as an input
-  Serial.begin(9600);        // initialize serial
+  pinMode(led, OUTPUT);     
+  pinMode(sensor, INPUT);   
+  Serial.begin(9600);       
 }
 
 void loop()
 {
-  val = digitalRead(sensor);   // read sensor value
+  val = digitalRead(sensor);   
   if (val == HIGH) 
-  {           // check if the sensor is HIGH
-    digitalWrite(led, HIGH);   // turn LED ON
-    delay(1000);                // delay 100 milliseconds 
+  {         
+    digitalWrite(led, HIGH);  
+    delay(1000);                 
     
     if (state == LOW) 
     {
       Serial.println("Motion detected!"); 
-      state = HIGH;       // update variable state to HIGH
+      state = HIGH;      
     }
   } 
   else 
   {
-    digitalWrite(led, LOW); // turn LED OFF
-    delay(1000);             // delay 200 milliseconds 
+    digitalWrite(led, LOW); 
+    delay(1000);            
       
     if (state == HIGH)
     {
     Serial.println("Motion stopped!");
-    state = LOW;       // update variable state to LOW
+    state = LOW;       
     }
   }
 }
