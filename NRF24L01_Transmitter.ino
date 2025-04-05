@@ -33,18 +33,21 @@ int selectedScreen = -1;
 int level = -1;
 int state = 0;
 
-struct SensorData {
+struct SensorData 
+{
   int joyX;
   int joyY;
   int counter;
   float accel_x, accel_y, accel_z;
 } dataToSend;
 
-void playStartup() {
+void playStartup() 
+{
   int melody[] = { 262, 330, 392, 523 };
   int duration[] = { 200, 200, 200, 400 };
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++) 
+  {
     tone(buzzer, melody[i], duration[i]);
     delay(duration[i] + 50);
   }
@@ -52,7 +55,8 @@ void playStartup() {
 
 int stateLevel = false;
 
-void setup() {
+void setup() 
+{
   pinMode(Down_Button, INPUT_PULLUP);
   pinMode(Select_Button, INPUT_PULLUP);
   pinMode(buzzer, OUTPUT);
@@ -60,7 +64,8 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
 
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) 
+  {
     Serial.println(F("SSD1306 OLED failed"));
     for (;;)
       ;
@@ -77,7 +82,8 @@ void setup() {
   playStartup();
 
   mpu.initialize();
-  if (!mpu.testConnection()) {
+  if (!mpu.testConnection()) 
+  {
     Serial.println("MPU6050 connection failed!");
     while (1)
       ;
@@ -89,8 +95,10 @@ void setup() {
   radio.stopListening();
 }
 
-void loop() {
-  if (digitalRead(Down_Button) == LOW) {
+void loop() 
+{
+  if (digitalRead(Down_Button) == LOW) 
+  {
     if (selectedScreen == -1) {
       tone(buzzer, 1500, 100);
       menuIndex = (menuIndex + 1) % totalItems;
@@ -99,11 +107,15 @@ void loop() {
     }
   }
 
-  if (digitalRead(Select_Button) == LOW) {
-    if (selectedScreen == menuIndex) {
+  if (digitalRead(Select_Button) == LOW) 
+  {
+    if (selectedScreen == menuIndex) 
+    {
       tone(buzzer, 1500, 100);
       selectedScreen = -1;
-    } else {
+    } 
+    else 
+    {
       tone(buzzer, 1500, 100);
       selectedScreen = menuIndex;
     }
@@ -113,19 +125,23 @@ void loop() {
   Menu();
 }
 
-void Menu() {
+void Menu() 
+{
   bool success = radio.write(&dataToSend, sizeof(SensorData));
 
-  if (success == HIGH && !stateLevel) {
+  if (success == HIGH && !stateLevel) 
+  {
     stateLevel = true;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) 
+    {
       digitalWrite(buzzer, HIGH);
       delay(50);
       digitalWrite(buzzer, LOW);
       delay(30);
     }
   }
-  if (success == LOW) {
+  if (success == LOW) 
+  {
     stateLevel = false;
   }
 
@@ -133,7 +149,8 @@ void Menu() {
   display.setTextSize(1);
   display.setTextColor(WHITE);
 
-  if (selectedScreen == 0) {
+  if (selectedScreen == 0) 
+  {
     dataToSend.joyX = analogRead(X_axis);
     dataToSend.joyY = analogRead(Y_axis);
 
@@ -161,7 +178,9 @@ void Menu() {
     display.print("Mode   : ");
     graphAnimation();
     delay(150);
-  } else if (selectedScreen == 1) {
+  } 
+  else if (selectedScreen == 1) 
+  {
     int16_t ax, ay, az;
     mpu.getAcceleration(&ax, &ay, &az);
 
@@ -186,21 +205,29 @@ void Menu() {
     //display.println(dataToSend.accel_z);
     delay(150);
     radio.write(&dataToSend, sizeof(SensorData));
-  } else if (selectedScreen == 2) {
+  } 
+  else if (selectedScreen == 2) 
+  {
     display.setCursor(36, 3);
     display.print("Setting");
     display.drawLine(5, 13, 123, 13, WHITE);
-  } else {
+  } 
+  else 
+  {
     //display.drawLine(0, 0, 128, 0, WHITE);
     display.setCursor(35, 3);
     display.print("Main Menu");
     display.drawLine(10, 13, 118, 13, WHITE);
 
-    for (int i = 0; i < totalItems; i++) {
-      if (i == menuIndex) {
+    for (int i = 0; i < totalItems; i++) 
+    {
+      if (i == menuIndex) 
+      {
         display.setCursor(10, 20 + (i * 15));
         display.print("> ");
-      } else {
+      } 
+      else 
+      {
         display.setCursor(20, 20 + (i * 15));
       }
       display.println(menuItems[i]);
@@ -209,22 +236,26 @@ void Menu() {
   display.display();
 }
 
-void graphAnimation() {
+void graphAnimation() 
+{
   int xPos = map(dataToSend.joyY, 1023, 0, 95, 120);
   int yPos = map(dataToSend.joyX, 0, 1023, 20, 60);
   display.drawLine(88, 18, 88, 60, WHITE);
   display.fillCircle(xPos, yPos, 4, WHITE);
 }
 
-void enable() {
+void enable() 
+{
   int ButtonState = digitalRead(Down_Button);
-  if (ButtonState == LOW) {
+  if (ButtonState == LOW) 
+  {
     dataToSend.counter++;
     tone(buzzer, 5000, 50);
     //Serial.print("Speed : ");
     //Serial.println(dataToSend.counter);
     delay(200);
-    if (dataToSend.counter == 4) {
+    if (dataToSend.counter == 4) 
+    {
       dataToSend.counter = 0;
     }
   }
