@@ -10,7 +10,7 @@ Otto Otto;
 
 #define GES_REACTION_TIME		500				
 #define GES_ENTRY_TIME			200			 
-#define GES_QUIT_TIME			  1000
+#define GES_QUIT_TIME			1000
 
 const int modeButton = 6;
 uint8_t incrementCounter;
