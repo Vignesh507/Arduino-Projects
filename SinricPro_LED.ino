@@ -41,6 +41,7 @@ void setup()
   mySwitch.onPowerState(value);
   
   SinricPro.begin(APP_KEY, APP_SECRET);
+  SinricPro.restoreDeviceStates(true);
 }
 
 void loop()
